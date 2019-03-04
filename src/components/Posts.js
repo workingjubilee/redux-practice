@@ -4,9 +4,14 @@ import { fetchPosts } from '../actions/postActions';
 
 
 class Posts extends Component {
-
   componentDidMount() {
     this.props.fetchPosts();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.newPost) {
+      this.props.posts.unshift(nextProps.newPost)
+    }
   }
 
 
@@ -28,7 +33,8 @@ class Posts extends Component {
 }
 
 const mapStateToProps = state => ({
-  posts: state.posts.items
+  posts: state.posts.items,
+  newPost: state.posts.item
 });
 
 export default connect(mapStateToProps, { fetchPosts })(Posts);
